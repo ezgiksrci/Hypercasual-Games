@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] float radius = 1.0f;
     [SerializeField] List<GameObject> cloneList;
     [SerializeField] int score = 0;
+    [SerializeField] TextMeshProUGUI scoreTMP;
 
 
     private void OnTriggerExit(Collider other)
@@ -23,12 +25,14 @@ public class SpawnManager : MonoBehaviour
                 CreateClonesAroundPoint(gateController.gateNumber, transform.position, radius);
                 radius = radius + 0.5f;
                 score += gateController.gateNumber;
+                scoreTMP.text = score.ToString();
             }
             else if (gateController.gateNumber < 0)
             {
                 for (int i = 0; i > gateController.gateNumber; i--)
                 {
                     score--;
+                    scoreTMP.text = score.ToString();
 
                     if (score > -1)
                     {
