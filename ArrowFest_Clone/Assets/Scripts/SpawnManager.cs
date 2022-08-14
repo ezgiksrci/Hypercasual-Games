@@ -10,7 +10,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject playerClone;
     [SerializeField] float radius = 1.0f;
     [SerializeField] List<GameObject> cloneList;
-    [SerializeField] int score = 0;
+    [SerializeField] int score = 1;
     [SerializeField] TextMeshProUGUI scoreTMP;
 
 
@@ -18,18 +18,25 @@ public class SpawnManager : MonoBehaviour
     {
         if (other.TryGetComponent(out GateController gateController))
         {
-            if (gateController.gateNumber > 0)
-            {
-                //Debug.Log(gateController.gateNumber);
-
-                CreateClonesAroundPoint(gateController.gateNumber, transform.position, radius);
-                radius = radius + 0.5f;
-                score += gateController.gateNumber;
+            if (gateController.operatorEnums == OperatorEnums.Multiply)
+            {                
+                CreateClonesAroundPoint(score*gateController.GateNumber-score, transform.position, radius);
+                radius = radius + 0.5f;                
+                score *= gateController.GateNumber;
                 scoreTMP.text = score.ToString();
+                return;
             }
-            else if (gateController.gateNumber < 0)
+            else if (gateController.operatorEnums == OperatorEnums.Plus)
             {
-                for (int i = 0; i > gateController.gateNumber; i--)
+                CreateClonesAroundPoint(gateController.GateNumber, transform.position, radius);
+                radius = radius + 0.5f;
+                score += gateController.GateNumber;
+                scoreTMP.text = score.ToString();
+                return;
+            }
+            else if (gateController.operatorEnums == OperatorEnums.Minus)
+            {
+                for (int i = 0; i > gateController.GateNumber; i--)
                 {
                     score--;
                     scoreTMP.text = score.ToString();

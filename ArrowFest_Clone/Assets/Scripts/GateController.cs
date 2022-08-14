@@ -1,21 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GateController : MonoBehaviour
 {
+    public OperatorEnums operatorEnums = OperatorEnums.Plus;
     [SerializeField] Text gateText;
-    public int gateNumber;
-  
+    [SerializeField] int gateNumber;
+
+    public int GateNumber
+    {
+        get => gateNumber;
+    }
 
     private void Start()
     {
-        if (gateNumber > 0)
-        {
+        if (operatorEnums == OperatorEnums.Plus)
             gateText.text = "+" + gateNumber.ToString();
-        }
+        else if (operatorEnums == OperatorEnums.Minus)
+            gateText.text = "-" + gateNumber.ToString();
         else
-            gateText.text = gateNumber.ToString();
+            gateText.text = "x" + gateNumber.ToString();
     }
 }
